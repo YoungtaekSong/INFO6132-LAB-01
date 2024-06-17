@@ -34,7 +34,8 @@ export default function App() {
     ]
   )
   const [todoDesc, setTodoDesc] = useState('')
-  const [disabledAddButton, setDisabledAddButton] = useState(true)
+  const [todoStatus, setTodoStatus] = useState(true)
+  const [disabledAddButton, setDisabledAddButton] = useState(false)
 
   const addTask = async () => {
     console.log("* add item : " + todoDesc)
@@ -57,7 +58,7 @@ export default function App() {
     }
 
     const newTodoList = [...todoList]
-    newTodoList.push({ id: String(uuid.v4()), desc: todoDesc, status: false })
+    newTodoList.push({ id: String(uuid.v4()), desc: todoDesc, status: todoStatus })
     setTodoList(newTodoList)
   }
 
@@ -102,11 +103,14 @@ export default function App() {
 
       <Header title="Todo List" />
 
-      <TextInput
-        style={styles.taskInput}
-        placeholder="Enter the task's description"
-        onChangeText={desc => onChangeTextDesc(desc)}
-      />
+      <View style={styles.inputTaskContainer}>
+        <TextInput
+          style={styles.taskInput}
+          placeholder="Enter the task's description"
+          onChangeText={desc => onChangeTextDesc(desc)}
+        />
+        <Switch style={styles.taskInputSwitch} value={todoStatus} onValueChange={status => setTodoStatus(status)} />
+      </View>
 
       <TouchableOpacity
         style={disabledAddButton ? styles.addTaskButtonDisabled : styles.addTaskButton}
@@ -147,12 +151,21 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginTop: 10,
   },
+  inputTaskContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    width: "90%",
+    borderWidth: 1
+  },
+  taskInputSwitch: {
+    borderWidth: 1,
+  },
   taskInput: {
     borderWidth: 1,
     borderColor: "#CFCFCF",
-    width: "95%",
-    padding: 10,
-    margin: 10
+    width: "80%",
+    height: 30,
   },
   addTaskButton: {
     backgroundColor: '#752cb0',
