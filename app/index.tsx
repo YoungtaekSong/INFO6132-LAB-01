@@ -29,10 +29,8 @@ export default function App() {
 
   const [todoList, setTodoList] = useState<TaskData[]>(
     [
-      { id: String(uuid.v4()), desc: "Do quiz1", status: true },
-      { id: String(uuid.v4()), desc: "Do lab1", status: true },
-      { id: String(uuid.v4()), desc: "Do quiz2", status: true },
-      { id: String(uuid.v4()), desc: "Do lab2", status: true },
+      { id: String(uuid.v4()), desc: "Do quiz1", status: false },
+      { id: String(uuid.v4()), desc: "Do lab1", status: false },
     ]
   )
   const [todoDesc, setTodoDesc] = useState('')
@@ -59,7 +57,7 @@ export default function App() {
     }
 
     const newTodoList = [...todoList]
-    newTodoList.push({ id: String(uuid.v4()), desc: todoDesc, status: true })
+    newTodoList.push({ id: String(uuid.v4()), desc: todoDesc, status: false })
     setTodoList(newTodoList)
   }
 
@@ -86,15 +84,15 @@ export default function App() {
 
     return (
       <View style={styles.taskContainer}>
-        <Text>Key: {item.id.split("-")[0]} </Text>
-        <Text>Task: {item.desc}</Text>
-        <TouchableOpacity onPress={deleteItem}>
-          <Ionicons name='trash-bin-outline' size={24} color="red" />
-        </TouchableOpacity>
-        <Switch
-          value={item.status}
-          onValueChange={changeStatus}
-        />
+        <Text style={styles.taskId}>{item.id} </Text>
+        <Text style={item.status ? styles.taskDescDone : styles.taskDesc}>{item.desc}</Text>
+        <View style={styles.taskFunctionContainer}>
+          <TouchableOpacity onPress={deleteItem}>
+            <Ionicons name='trash-bin-outline' size={30} color="red" />
+          </TouchableOpacity>
+          <Switch style={styles.taskSwitch} value={item.status} onValueChange={changeStatus} />
+          <Text style={styles.taskStatus}>{item.status ? "Done" : "Due"} </Text>
+        </View>
       </View>
     )
   }
@@ -109,6 +107,7 @@ export default function App() {
         placeholder="Enter the task's description"
         onChangeText={desc => onChangeTextDesc(desc)}
       />
+
       <TouchableOpacity
         style={disabledAddButton ? styles.addTaskButtonDisabled : styles.addTaskButton}
         onPress={addTask}
@@ -177,4 +176,29 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 18
   },
+  taskId: {
+    fontSize: 10,
+  },
+  taskDesc: {
+    fontSize: 20,
+    margin: 10,
+  },
+  taskDescDone: {
+    fontSize: 20,
+    margin: 10,
+    textDecorationLine: "line-through"
+  },
+  taskStatus: {
+    margin: 10,
+    fontSize: 12
+  },
+  taskSwitch: {
+    marginLeft: 20,
+    marginRight: 20,
+    fontSize: 12
+  },
+  taskFunctionContainer: {
+    flex: 1,
+    flexDirection: "row-reverse",
+  }
 });
