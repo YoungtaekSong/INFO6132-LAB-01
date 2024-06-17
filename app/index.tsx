@@ -1,5 +1,9 @@
 import {
   FlatList,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
   StyleSheet,
   Switch,
   Text,
@@ -28,6 +32,8 @@ export default function App() {
     [
       { id: String(uuid.v4()), desc: "Do quiz1", status: true },
       { id: String(uuid.v4()), desc: "Do lab1", status: true },
+      { id: String(uuid.v4()), desc: "Do quiz2", status: true },
+      { id: String(uuid.v4()), desc: "Do lab2", status: true },
     ]
   )
   const [todoDesc, setTodoDesc] = useState('')
@@ -80,12 +86,9 @@ export default function App() {
     }
 
     return (
-      <>
-        <Text></Text>
-        <Text></Text>
-        <Text>{item.id} </Text>
-        <Text>{item.desc}</Text>
-        <Text>----------------------------</Text>
+      <View style={styles.taskContainer}>
+        <Text>Key: {item.id.split("-")[0]} </Text>
+        <Text>Task: {item.desc}</Text>
         <TouchableOpacity onPress={deleteItem}>
           <Ionicons name='trash-bin-outline' size={24} color="red" />
         </TouchableOpacity>
@@ -93,38 +96,55 @@ export default function App() {
           value={item.status}
           onValueChange={changeStatus}
         />
-      </>
+      </View>
     )
   }
 
   return (
-    <View style={styles.container}>
-      <Header title="Todo Input" />
-      <View style={{}} >
-        <TextInput
-          placeholder="Enter Todo"
-          onChangeText={desc => onChangeTextDesc(desc)}
-        />
-        <TouchableOpacity
-          style={styles.addItemButton}
-          onPress={addTask}
-          disabled={disabledAddButton}>
-          <Text style={styles.buttonText}>Add Item</Text>
-        </TouchableOpacity>
-      </View >
+    <SafeAreaView style={styles.container}>
 
       <Header title="Todo List" />
-      <View>
+
+      <TextInput
+        placeholder="Enter Todo"
+        onChangeText={desc => onChangeTextDesc(desc)}
+      />
+      <TouchableOpacity
+        style={styles.addItemButton}
+        onPress={addTask}
+        disabled={disabledAddButton}>
+        <Text style={styles.buttonText}>Add Item</Text>
+      </TouchableOpacity>
+
+      <Header title="Todo Input" />
+      <ScrollView>
         <FlatList
           data={todoList}
           renderItem={renderTask}
           keyExtractor={(todoList) => todoList.id} />
-      </View>
-    </View>
+      </ScrollView>
+
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: "gray",
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
+  },
+  taskContainer: {
+    /*
+    borderBlockColor: "red",
+    borderWidth: 1,
+    */
+    padding: 5,
+    margin: 5,
+  },
   addItemButton: {
     backgroundColor: '#EB8634',
     marginTop: 10,
@@ -138,11 +158,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#FFF',
     fontSize: 18
-  },
-  container: {
-    flex: 1,
-    alignItems: "center",
-    padding: 24,
   },
   main: {
     flex: 1,
