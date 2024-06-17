@@ -88,7 +88,7 @@ export default function App() {
         <Text style={item.status ? styles.taskDescDone : styles.taskDesc}>{item.desc}</Text>
         <View style={styles.taskFunctionContainer}>
           <TouchableOpacity onPress={deleteItem}>
-            <Ionicons name='trash-bin-outline' size={30} color="red" />
+            <Ionicons name='trash-bin-outline' size={30} color="#de5050" />
           </TouchableOpacity>
           <Switch style={styles.taskSwitch} value={item.status} onValueChange={changeStatus} />
           <Text style={styles.taskStatus}>{item.status ? "Done" : "Due"} </Text>
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     margin: 10
   },
   addTaskButton: {
-    backgroundColor: '#EB8634',
+    backgroundColor: '#752cb0',
     paddingLeft: 10,
     paddingRight: 10,
     borderRadius: 5,
