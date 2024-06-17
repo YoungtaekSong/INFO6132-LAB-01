@@ -5,7 +5,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 
 import {
@@ -39,6 +39,17 @@ export default function App() {
     if (todoDesc == "") {
       console.log("is blank")
       alert("Please input description for Todo.")
+      return
+    }
+
+    var duplicateFlag: Boolean = false
+
+    todoList.map((t) => {
+      if (t.desc == todoDesc) { duplicateFlag = true; return; }
+    })
+
+    if (duplicateFlag) {
+      alert("Description is duplicated.")
       return
     }
 
@@ -94,8 +105,11 @@ export default function App() {
           placeholder="Enter Todo"
           onChangeText={desc => onChangeTextDesc(desc)}
         />
-        <TouchableOpacity onPress={addTask} disabled={disabledAddButton}>
-          <Text> Add Item</Text>
+        <TouchableOpacity
+          style={styles.addItemButton}
+          onPress={addTask}
+          disabled={disabledAddButton}>
+          <Text style={styles.buttonText}>Add Item</Text>
         </TouchableOpacity>
       </View >
 
@@ -111,6 +125,20 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  addItemButton: {
+    backgroundColor: '#EB8634',
+    marginTop: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    borderRadius: 5,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  buttonText: {
+    color: '#FFF',
+    fontSize: 18
+  },
   container: {
     flex: 1,
     alignItems: "center",
