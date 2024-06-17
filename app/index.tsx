@@ -34,8 +34,8 @@ export default function App() {
     ]
   )
   const [todoDesc, setTodoDesc] = useState('')
-  const [todoStatus, setTodoStatus] = useState(true)
-  const [disabledAddButton, setDisabledAddButton] = useState(false)
+  const [todoStatus, setTodoStatus] = useState(false)
+  const [disabledAddButton, setDisabledAddButton] = useState(true)
 
   const addTask = async () => {
     console.log("* add item : " + todoDesc)
@@ -103,12 +103,14 @@ export default function App() {
 
       <Header title="Todo List" />
 
-      <View style={styles.inputTaskContainer}>
+      <View style={styles.taskInputContainer}>
+
         <TextInput
           style={styles.taskInput}
           placeholder="Enter the task's description"
           onChangeText={desc => onChangeTextDesc(desc)}
         />
+
         <Switch style={styles.taskInputSwitch} value={todoStatus} onValueChange={status => setTodoStatus(status)} />
       </View>
 
@@ -119,12 +121,13 @@ export default function App() {
         <Text style={styles.buttonText}>Add Task</Text>
       </TouchableOpacity>
 
+
       <FlatList style={styles.todoListContainer}
         data={todoList}
         renderItem={renderTask}
         keyExtractor={(todoList) => todoList.id} />
 
-    </SafeAreaView>
+    </SafeAreaView >
   );
 }
 
@@ -151,15 +154,15 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginTop: 10,
   },
-  inputTaskContainer: {
+  taskInputContainer: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "center",
-    width: "90%",
-    borderWidth: 1
+    minHeight: 40,
+    maxHeight: 40,
   },
   taskInputSwitch: {
-    borderWidth: 1,
+    marginLeft: 10
   },
   taskInput: {
     borderWidth: 1,
@@ -213,5 +216,7 @@ const styles = StyleSheet.create({
   taskFunctionContainer: {
     flex: 1,
     flexDirection: "row-reverse",
+    maxHeight: 40,
+    minHeight: 40,
   }
 });
