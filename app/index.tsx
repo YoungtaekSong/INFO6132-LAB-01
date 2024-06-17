@@ -1,15 +1,36 @@
-import { Text, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Header from '../components/Header';
+
+interface Todo {
+  id: string,
+  desc: string
+}
+
 
 export default function Index() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
+    <SafeAreaView>
+      <Header title="Todo Input" />
+      <View style={styles.center} >
+        <TextInput placeholder="Enter Todo" />
+        <TouchableOpacity>
+          <Text> Add Item</Text>
+        </TouchableOpacity>
+      </View >
+      <Header title="Todo List" />
+
+    </SafeAreaView >
   );
 }
+
+const styles = StyleSheet.create({
+  center: {
+  }
+});
