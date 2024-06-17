@@ -27,41 +27,44 @@ export default function App() {
   const [todoList, setTodoList] = useState<TaskData[]>(
     [
       { id: String(uuid.v4()), desc: "Do quiz1", status: true },
-      { id: String(uuid.v4()), desc: "Do quiz2", status: true },
-      { id: String(uuid.v4()), desc: "Do lab1", status: false },
-      { id: String(uuid.v4()), desc: "Do lab2", status: false },
+      { id: String(uuid.v4()), desc: "Do lab1", status: true },
     ]
   )
+  const [todoDesc, setTodoDesc] = useState('')
+  const [disabledAddButton, setDisabledAddButton] = useState(true)
+
+  const addTask = async () => {
+    console.log("* add item : " + todoDesc)
+
+    if (todoDesc == "") {
+      console.log("is blank")
+      alert("Please input description for Todo.")
+      return
+    }
+
+    const newTodoList = [...todoList]
+    newTodoList.push({ id: String(uuid.v4()), desc: todoDesc, status: true })
+    setTodoList(newTodoList)
+  }
+
+  const onChangeTextDesc = async (desc: any) => {
+    setDisabledAddButton(!!(desc == ""))
+    setTodoDesc(desc)
+  }
 
   const renderTask = ({ item }: any) => {
 
     const deleteItem = async () => {
       console.log("* delete item: " + item.id)
-
       const newTodoList: TaskData[] = [];
-
-      todoList.filter(t => t.id != item.id).map(
-        (t) => {
-          console.log(t)
-          newTodoList.push(t)
-        }
-      )
+      todoList.filter(t => t.id != item.id).map((t) => { newTodoList.push(t) })
       setTodoList(newTodoList)
     }
 
     const changeStatus = async () => {
       console.log("* change status: " + item.id)
-
       const newTodoList: TaskData[] = [];
-
-      todoList.map(
-        (t) => {
-          if (t.id == item.id) {
-            t.status = !t.status
-          }
-          newTodoList.push(t)
-        }
-      )
+      todoList.map((t) => { if (t.id == item.id) { t.status = !t.status } newTodoList.push(t) })
       setTodoList(newTodoList)
     }
 
@@ -87,8 +90,11 @@ export default function App() {
     <View style={styles.container}>
       <Header title="Todo Input" />
       <View style={{}} >
-        <TextInput placeholder="Enter Todo" />
-        <TouchableOpacity>
+        <TextInput
+          placeholder="Enter Todo"
+          onChangeText={desc => onChangeTextDesc(desc)}
+        />
+        <TouchableOpacity onPress={addTask} disabled={disabledAddButton}>
           <Text> Add Item</Text>
         </TouchableOpacity>
       </View >
