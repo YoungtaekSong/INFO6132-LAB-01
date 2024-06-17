@@ -2,7 +2,6 @@ import {
   FlatList,
   Platform,
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Switch,
@@ -106,23 +105,21 @@ export default function App() {
       <Header title="Todo List" />
 
       <TextInput
-        placeholder="Enter Todo"
+        style={styles.taskInput}
+        placeholder="Enter the task's description"
         onChangeText={desc => onChangeTextDesc(desc)}
       />
       <TouchableOpacity
-        style={styles.addItemButton}
+        style={disabledAddButton ? styles.addTaskButtonDisabled : styles.addTaskButton}
         onPress={addTask}
         disabled={disabledAddButton}>
-        <Text style={styles.buttonText}>Add Item</Text>
+        <Text style={styles.buttonText}>Add Task</Text>
       </TouchableOpacity>
 
-      <Header title="Todo Input" />
-      <ScrollView>
-        <FlatList
-          data={todoList}
-          renderItem={renderTask}
-          keyExtractor={(todoList) => todoList.id} />
-      </ScrollView>
+      <FlatList style={styles.todoListContainer}
+        data={todoList}
+        renderItem={renderTask}
+        keyExtractor={(todoList) => todoList.id} />
 
     </SafeAreaView>
   );
@@ -134,20 +131,41 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: "gray",
+    borderBottomColor: "#CFCFCF",
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0
   },
-  taskContainer: {
-    /*
-    borderBlockColor: "red",
-    borderWidth: 1,
-    */
-    padding: 5,
-    margin: 5,
+  todoListContainer: {
+    width: "100%"
   },
-  addItemButton: {
-    backgroundColor: '#EB8634',
+  taskContainer: {
+    borderBlockColor: "#CFCFCF",
+    borderTopWidth: 1,
+    borderBottomWidth: 4,
+    borderLeftWidth: 0.2,
+    borderRightWidth: 2,
+    padding: 10,
+    marginLeft: 10,
+    marginRight: 10,
     marginTop: 10,
+  },
+  taskInput: {
+    borderWidth: 1,
+    borderColor: "#CFCFCF",
+    width: "95%",
+    padding: 10,
+    margin: 10
+  },
+  addTaskButton: {
+    backgroundColor: '#EB8634',
+    paddingLeft: 10,
+    paddingRight: 10,
+    borderRadius: 5,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  addTaskButtonDisabled: {
+    backgroundColor: '#CFCFCF',
     paddingLeft: 10,
     paddingRight: 10,
     borderRadius: 5,
@@ -158,19 +176,5 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#FFF',
     fontSize: 18
-  },
-  main: {
-    flex: 1,
-    justifyContent: "center",
-    maxWidth: 960,
-    marginHorizontal: "auto",
-  },
-  title: {
-    fontSize: 64,
-    fontWeight: "bold",
-  },
-  subtitle: {
-    fontSize: 36,
-    color: "#38434D",
   },
 });

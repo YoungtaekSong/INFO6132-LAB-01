@@ -15,11 +15,7 @@ const Header: React.FC<Props> = ({ title }) => {
 
 const styles = StyleSheet.create({
     header: {
-        borderTopWidth: 1,
-        borderTopColor: '#CFCFCF',
-        alignItems: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor: '#CFCFCF'
+        alignItems: 'center'
     },
     headerText: {
         fontSize: 26,
